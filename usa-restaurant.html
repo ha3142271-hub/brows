@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USA Restaurant — Peru, Indiana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #0A0E1A;
+    --cream:  #F5EDDC;
+    --gold:   #C9A84C;
+    --gold-lt:#E8CD82;
+    --sage:   #8A9E8C;
+    --charcoal:#1E2535;
+    --mid:    #2E3650;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 3rem;
+    background: linear-gradient(to bottom, rgba(10,14,26,.95) 0%, transparent 100%);
+    transition: background .4s;
+  }
+  nav.scrolled { background: rgba(10,14,26,.97); }
+  .nav-logo {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 1.5rem; font-weight: 600; letter-spacing: .12em;
+    color: var(--gold); text-transform: uppercase; text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: .72rem; font-weight: 400; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--cream);
+    text-decoration: none; opacity: .75; transition: opacity .25s, color .25s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+  .nav-reserve {
+    font-size: .7rem; font-weight: 500; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--navy);
+    background: var(--gold); border: none;
+    padding: .6rem 1.4rem; cursor: pointer;
+    transition: background .25s;
+  }
+  .nav-reserve:hover { background: var(--gold-lt); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: relative; overflow: hidden;
+  }
+  .hero-left {
+    background: var(--charcoal);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 8rem 4rem 6rem;
+    position: relative;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80') center/cover no-repeat;
+    opacity: .32;
+  }
+  .hero-left-content { position: relative; z-index: 1; }
+  .hero-eyebrow {
+    font-size: .65rem; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.8rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 2.5rem; height: 1px; background: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Cormorant Garant', serif;
+    font-size: clamp(4rem, 7vw, 7rem);
+    font-weight: 300; line-height: .9;
+    color: var(--cream); margin-bottom: 2.5rem;
+  }
+  .hero-title em { font-style: italic; color: var(--gold-lt); }
+  .hero-subtitle {
+    font-size: .85rem; font-weight: 300; letter-spacing: .1em;
+    color: var(--cream); opacity: .7; max-width: 28ch; line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 1rem;
+    font-size: .7rem; font-weight: 500; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--navy);
+    background: var(--gold); padding: .9rem 2rem;
+    text-decoration: none; transition: background .25s;
+  }
+  .hero-cta:hover { background: var(--gold-lt); }
+  .hero-cta svg { width: 14px; transition: transform .3s; }
+  .hero-cta:hover svg { transform: translateX(4px); }
+
+  .hero-right {
+    background: var(--navy);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+  }
+  .hero-right::after {
+    content: 'USA'; position: absolute;
+    font-family: 'Cormorant Garant', serif; font-size: 18rem; font-weight: 700;
+    color: rgba(201,168,76,.04); letter-spacing: -.02em;
+    right: -2rem; top: 50%; transform: translateY(-50%);
+    pointer-events: none; user-select: none; line-height: 1;
+  }
+  .hero-stats { display: flex; flex-direction: column; gap: 3rem; position: relative; z-index: 1; }
+  .stat-item { border-left: 1px solid rgba(201,168,76,.3); padding-left: 1.5rem; }
+  .stat-num {
+    font-family: 'Cormorant Garant', serif; font-size: 3.2rem;
+    font-weight: 600; color: var(--gold); line-height: 1;
+  }
+  .stat-label {
+    font-size: .65rem; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--cream); opacity: .5; margin-top: .4rem;
+  }
+  .hero-hours {
+    margin-top: auto; padding-top: 4rem; position: relative; z-index: 1;
+    border-top: 1px solid rgba(201,168,76,.15);
+  }
+  .hours-label {
+    font-size: .6rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+  .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem 2rem; }
+  .hours-row { font-size: .78rem; color: var(--cream); opacity: .7; }
+  .hours-row span { color: var(--gold-lt); opacity: 1; }
+
+  /* ── GOLD RULE ── */
+  .gold-rule {
+    width: 0; height: 1px; background: var(--gold);
+    margin: 0 auto; transition: width 1.2s cubic-bezier(.16,1,.3,1);
+  }
+  .gold-rule.visible { width: 80%; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 7rem 0; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
+
+  /* ── STORY ── */
+  .story { background: var(--charcoal); }
+  .story-inner {
+    display: grid; grid-template-columns: 5fr 4fr; gap: 6rem; align-items: center;
+  }
+  .section-eyebrow {
+    font-size: .62rem; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: .8rem;
+  }
+  .section-eyebrow::before {
+    content: ''; width: 1.5rem; height: 1px; background: var(--gold); display: block;
+  }
+  .section-title {
+    font-family: 'Cormorant Garant', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 400; line-height: 1.1; color: var(--cream); margin-bottom: 2rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold-lt); }
+  .section-body {
+    font-size: .9rem; line-height: 1.9; color: var(--cream);
+    opacity: .7; max-width: 52ch;
+  }
+  .section-body p + p { margin-top: 1.2em; }
+  .story-img-wrap {
+    position: relative; aspect-ratio: 3/4; overflow: hidden;
+  }
+  .story-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: sepia(20%) brightness(.85);
+    transition: transform 6s ease;
+  }
+  .story-img-wrap:hover img { transform: scale(1.04); }
+  .story-img-wrap::before {
+    content: ''; position: absolute; inset: 12px;
+    border: 1px solid rgba(201,168,76,.35); z-index: 1; pointer-events: none;
+  }
+
+  /* ── MENU PREVIEW ── */
+  .menu-section { background: var(--navy); }
+  .menu-header { text-align: center; margin-bottom: 4rem; }
+  .menu-header .section-eyebrow { justify-content: center; }
+  .menu-header .section-eyebrow::before { display: none; }
+  .menu-header .section-title { max-width: 18ch; margin: 0 auto 1rem; }
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  }
+  .menu-card {
+    background: var(--charcoal);
+    padding: 2.5rem 2rem; position: relative;
+    overflow: hidden; cursor: default;
+    transition: background .3s;
+  }
+  .menu-card:hover { background: var(--mid); }
+  .menu-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .4s ease;
+  }
+  .menu-card:hover::after { transform: scaleX(1); }
+  .menu-cat {
+    font-size: .6rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem;
+  }
+  .menu-item-name {
+    font-family: 'Cormorant Garant', serif; font-size: 1.6rem;
+    font-weight: 400; color: var(--cream); margin-bottom: .6rem; line-height: 1.2;
+  }
+  .menu-item-desc {
+    font-size: .78rem; color: var(--cream); opacity: .55;
+    line-height: 1.7; margin-bottom: 1.5rem;
+  }
+  .menu-price {
+    font-family: 'Cormorant Garant', serif; font-size: 1.3rem;
+    color: var(--gold); font-weight: 300;
+  }
+
+  /* ── EXPERIENCE ── */
+  .experience { background: var(--charcoal); }
+  .experience-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: rgba(201,168,76,.15);
+  }
+  .exp-panel {
+    background: var(--charcoal); padding: 4rem 3rem;
+    transition: background .3s;
+  }
+  .exp-panel:hover { background: var(--mid); }
+  .exp-num {
+    font-family: 'Cormorant Garant', serif; font-size: 4rem;
+    font-weight: 700; color: rgba(201,168,76,.12); line-height: 1;
+    margin-bottom: 1.2rem; display: block;
+  }
+  .exp-title {
+    font-family: 'Cormorant Garant', serif; font-size: 1.6rem;
+    font-weight: 400; color: var(--cream); margin-bottom: 1rem;
+  }
+  .exp-body {
+    font-size: .82rem; line-height: 1.8; color: var(--cream); opacity: .6;
+  }
+
+  /* ── QUOTE ── */
+  .quote-section {
+    background: var(--gold);
+    padding: 7rem 0;
+    text-align: center;
+  }
+  .quote-section blockquote {
+    font-family: 'Cormorant Garant', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300; font-style: italic;
+    color: var(--navy); max-width: 20ch; margin: 0 auto;
+    line-height: 1.3;
+  }
+  .quote-section cite {
+    display: block; margin-top: 2rem;
+    font-family: 'Jost', sans-serif; font-size: .65rem;
+    font-style: normal; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--navy); opacity: .6;
+  }
+
+  /* ── LOCATION ── */
+  .location-section { background: var(--navy); }
+  .location-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .location-map {
+    aspect-ratio: 1; background: var(--charcoal);
+    position: relative; overflow: hidden;
+  }
+  .map-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 1rem;
+    background: linear-gradient(135deg, #1E2535 0%, #0A0E1A 100%);
+  }
+  .map-pin { font-size: 3rem; }
+  .map-text {
+    font-family: 'Cormorant Garant', serif; font-size: 1.1rem;
+    color: var(--gold); text-align: center; line-height: 1.5;
+  }
+  .map-subtext { font-size: .75rem; color: var(--cream); opacity: .5; text-align: center; }
+  .location-map a {
+    position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+    font-size: .65rem; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(201,168,76,.4);
+    padding-bottom: 2px;
+  }
+  .info-row {
+    display: flex; flex-direction: column; gap: 2.5rem;
+  }
+  .info-item {}
+  .info-label {
+    font-size: .58rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: .6rem;
+  }
+  .info-value {
+    font-size: .9rem; color: var(--cream); opacity: .8; line-height: 1.7;
+  }
+  .info-value a { color: var(--gold-lt); text-decoration: none; }
+  .info-value a:hover { text-decoration: underline; }
+
+  /* ── RESERVE ── */
+  .reserve-section {
+    background: var(--charcoal); text-align: center; padding: 8rem 0;
+  }
+  .reserve-section .section-title { max-width: 22ch; margin: 0 auto 1.5rem; }
+  .reserve-section .section-body { margin: 0 auto 3rem; text-align: center; }
+  .btn-gold {
+    display: inline-block; font-size: .72rem; font-weight: 500;
+    letter-spacing: .25em; text-transform: uppercase;
+    color: var(--navy); background: var(--gold);
+    padding: 1.1rem 3rem; text-decoration: none;
+    border: 2px solid var(--gold); transition: all .25s;
+    margin: .5rem;
+  }
+  .btn-gold:hover { background: transparent; color: var(--gold); }
+  .btn-outline {
+    display: inline-block; font-size: .72rem; font-weight: 500;
+    letter-spacing: .25em; text-transform: uppercase;
+    color: var(--cream); background: transparent;
+    padding: 1.1rem 3rem; text-decoration: none;
+    border: 1px solid rgba(245,237,220,.25); transition: all .25s;
+    margin: .5rem;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy); border-top: 1px solid rgba(201,168,76,.15);
+    padding: 4rem 0 3rem;
+  }
+  .footer-inner {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand {
+    font-family: 'Cormorant Garant', serif; font-size: 2rem;
+    font-weight: 600; color: var(--gold); letter-spacing: .08em;
+  }
+  .footer-tagline {
+    font-size: .75rem; color: var(--cream); opacity: .45;
+    margin-top: .5rem; line-height: 1.7;
+  }
+  .footer-col-title {
+    font-size: .6rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+  .footer-links a {
+    font-size: .78rem; color: var(--cream); opacity: .5;
+    text-decoration: none; transition: opacity .2s, color .2s;
+  }
+  .footer-links a:hover { opacity: 1; color: var(--gold); }
+  .footer-bottom {
+    border-top: 1px solid rgba(201,168,76,.1);
+    padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy {
+    font-size: .65rem; color: var(--cream); opacity: .3; letter-spacing: .1em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .story-inner, .location-inner { grid-template-columns: 1fr; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .experience-inner { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .container { padding: 0 1.5rem; }
+    .hero-left { padding: 7rem 2rem 4rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">USA Restaurant</a>
+  <ul class="nav-links">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#location">Find Us</a></li>
+  </ul>
+  <button class="nav-reserve" onclick="document.getElementById('reserve').scrollIntoView({behavior:'smooth'})">Reserve a Table</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-left-content">
+      <div class="hero-eyebrow">Est. Peru, Indiana</div>
+      <h1 class="hero-title">
+        Breakfast<br><em>crafted</em><br>with soul
+      </h1>
+      <p class="hero-subtitle">Where every morning begins with something worth remembering — hearty plates, warm welcome, and the quiet pride of a hometown table.</p>
+      <a href="#menu" class="hero-cta">
+        Explore the Menu
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">7AM</div>
+        <div class="stat-label">Doors open daily</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Made from scratch</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Coffee refills</div>
+      </div>
+    </div>
+    <div class="hero-hours">
+      <div class="hours-label">Today's Hours</div>
+      <div class="hours-grid">
+        <div class="hours-row">Mon – Fri <span>7am – 2pm</span></div>
+        <div class="hours-row">Saturday <span>7am – 2pm</span></div>
+        <div class="hours-row">Sunday <span>7am – 1pm</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="container">
+    <div class="story-inner">
+      <div class="fade-up">
+        <div class="section-eyebrow">Our Heritage</div>
+        <h2 class="section-title">A tradition of the <em>morning table</em></h2>
+        <div class="section-body">
+          <p>USA Restaurant has been a cornerstone of Peru, Indiana — a place where neighbors become regulars and regulars become family. We believe breakfast is not just a meal; it's the ceremony that sets the tone for your entire day.</p>
+          <p>Our kitchen starts before dawn, preparing everything from scratch with the same dedication that has made us a beloved institution in Miami County. From our golden hash browns to our hand-crafted omelets, every plate carries the weight of that commitment.</p>
+          <p>Come as you are. Leave as you wish you always felt.</p>
+        </div>
+      </div>
+      <div class="story-img-wrap fade-up" style="transition-delay:.15s">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&q=80" alt="Beautifully plated breakfast">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOLD RULE DIVIDER -->
+<div style="background:var(--navy);padding:2rem 0">
+  <div class="gold-rule" id="rule1"></div>
+</div>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="container">
+    <div class="menu-header fade-up">
+      <div class="section-eyebrow">Signature Plates</div>
+      <h2 class="section-title">The <em>art</em> of breakfast</h2>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card fade-up">
+        <div class="menu-cat">Morning Classics</div>
+        <div class="menu-item-name">The Grand Stack</div>
+        <div class="menu-item-desc">Three buttermilk pancakes, whipped butter, warm maple syrup, seasonal berry compote.</div>
+        <div class="menu-price">$11</div>
+      </div>
+      <div class="menu-card fade-up" style="transition-delay:.1s">
+        <div class="menu-cat">Egg Craft</div>
+        <div class="menu-item-name">Garden Omelet</div>
+        <div class="menu-item-desc">Three fresh eggs, roasted peppers, mushrooms, white cheddar, served with seasoned home fries.</div>
+        <div class="menu-price">$13</div>
+      </div>
+      <div class="menu-card fade-up" style="transition-delay:.2s">
+        <div class="menu-cat">Benedictions</div>
+        <div class="menu-item-name">Eggs Benedict</div>
+        <div class="menu-item-desc">Canadian bacon, poached eggs, silky hollandaise on a toasted English muffin.</div>
+        <div class="menu-price">$14</div>
+      </div>
+      <div class="menu-card fade-up" style="transition-delay:.05s">
+        <div class="menu-cat">Hearty Plates</div>
+        <div class="menu-item-name">Farmhand Breakfast</div>
+        <div class="menu-item-desc">Two eggs any style, choice of meat, home fries, toast, and a full pot of coffee.</div>
+        <div class="menu-price">$12</div>
+      </div>
+      <div class="menu-card fade-up" style="transition-delay:.15s">
+        <div class="menu-cat">Sweet Indulgence</div>
+        <div class="menu-item-name">French Toast Royale</div>
+        <div class="menu-item-desc">Thick-cut brioche, cinnamon custard batter, powdered sugar, fresh strawberries.</div>
+        <div class="menu-price">$10</div>
+      </div>
+      <div class="menu-card fade-up" style="transition-delay:.25s">
+        <div class="menu-cat">From the Grill</div>
+        <div class="menu-item-name">Biscuits & Gravy</div>
+        <div class="menu-item-desc">House-made buttermilk biscuits smothered in our signature sausage pepper gravy.</div>
+        <div class="menu-price">$9</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem">
+      <a href="#reserve" class="btn-outline">View Full Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- GOLD RULE -->
+<div style="background:var(--charcoal);padding:2rem 0">
+  <div class="gold-rule" id="rule2"></div>
+</div>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:4rem" class="fade-up">
+      <div class="section-eyebrow" style="justify-content:center">
+        <span style="display:none">—</span>What We Offer
+      </div>
+      <h2 class="section-title">More than a <em>meal</em></h2>
+    </div>
+    <div class="experience-inner">
+      <div class="exp-panel fade-up">
+        <span class="exp-num">I</span>
+        <div class="exp-title">Scratch Kitchen</div>
+        <p class="exp-body">Every batter mixed, every sauce stirred, every biscuit rolled by hand each morning. We don't open a package; we open our pantry.</p>
+      </div>
+      <div class="exp-panel fade-up" style="transition-delay:.1s">
+        <span class="exp-num">II</span>
+        <div class="exp-title">Fresh Coffee, Always</div>
+        <p class="exp-body">Our coffee is brewed fresh every 20 minutes. Refills flow freely because a great breakfast deserves a great cup — as many times as you need.</p>
+      </div>
+      <div class="exp-panel fade-up" style="transition-delay:.05s">
+        <span class="exp-num">III</span>
+        <div class="exp-title">Family Welcome</div>
+        <p class="exp-body">Children's menu, high chairs, and a staff that genuinely loves families. Sundays were made for coming here together.</p>
+      </div>
+      <div class="exp-panel fade-up" style="transition-delay:.15s">
+        <span class="exp-num">IV</span>
+        <div class="exp-title">Local & Loyal</div>
+        <p class="exp-body">Proudly serving Peru and Miami County for years. We source locally when we can, and we give back to the community that made us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-section fade-up">
+  <div class="container">
+    <blockquote>
+      "The best mornings start here."
+    </blockquote>
+    <cite>— A Regular, Peru Indiana</cite>
+  </div>
+</div>
+
+<!-- LOCATION -->
+<section class="location-section" id="location">
+  <div class="container">
+    <div class="location-inner">
+      <div class="location-map fade-up">
+        <div class="map-placeholder">
+          <div class="map-pin">📍</div>
+          <div class="map-text">USA Restaurant<br>Peru, Indiana</div>
+          <div class="map-subtext">Miami County, IN 46970</div>
+        </div>
+        <a href="https://maps.app.goo.gl/25T6RWukXx7eJAp17" target="_blank" rel="noopener">Open in Google Maps →</a>
+      </div>
+      <div class="fade-up" style="transition-delay:.15s">
+        <div class="section-eyebrow">Find Us</div>
+        <h2 class="section-title">Come <em>visit</em> us</h2>
+        <div class="info-row">
+          <div class="info-item">
+            <div class="info-label">Address</div>
+            <div class="info-value">Peru, Indiana<br>Miami County, IN 46970</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Hours</div>
+            <div class="info-value">
+              Monday – Friday: 7:00 AM – 2:00 PM<br>
+              Saturday: 7:00 AM – 2:00 PM<br>
+              Sunday: 7:00 AM – 1:00 PM
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Directions</div>
+            <div class="info-value">
+              <a href="https://maps.app.goo.gl/25T6RWukXx7eJAp17" target="_blank" rel="noopener">Get directions on Google Maps →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVE -->
+<section class="reserve-section" id="reserve">
+  <div class="container fade-up">
+    <div class="section-eyebrow" style="justify-content:center;margin-bottom:1rem">Join Us</div>
+    <h2 class="section-title">Ready for a<br><em>remarkable morning?</em></h2>
+    <p class="section-body">Walk-ins always welcome. Give us a call to ensure your table is waiting, or simply come as you are — we'll take care of the rest.</p>
+    <div>
+      <a href="tel:+17657226400" class="btn-gold">Call to Reserve</a>
+      <a href="https://maps.app.goo.gl/25T6RWukXx7eJAp17" target="_blank" rel="noopener" class="btn-outline">Get Directions</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">USA Restaurant</div>
+        <p class="footer-tagline">Peru, Indiana's favorite morning table. Scratch-made, warmly served, always worth the drive.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="#story">Our Story</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#location">Find Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Hours</div>
+        <ul class="footer-links">
+          <li><a href="#">Mon–Fri: 7am–2pm</a></li>
+          <li><a href="#">Saturday: 7am–2pm</a></li>
+          <li><a href="#">Sunday: 7am–1pm</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <ul class="footer-links">
+          <li><a href="https://maps.app.goo.gl/25T6RWukXx7eJAp17" target="_blank">Google Maps</a></li>
+          <li><a href="tel:+17657226400">Call Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 USA Restaurant, Peru Indiana. All rights reserved.</div>
+      <div class="footer-copy">Crafted with pride · Miami County</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // IntersectionObserver for fade-ups and gold rules
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-up, .gold-rule').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
